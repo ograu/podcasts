@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { Header } from './components/Header'
 
-const Episode = () => {
+export const Episode = () => {
   const { id, episodeId } = useParams<{ id: string; episodeId: string }>()
   return (
     <>
@@ -15,5 +15,3 @@ const Episode = () => {
     </>
   )
 }
-
-export default Episode
