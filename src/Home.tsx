@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useMemo, useState } from 'react'
 import { Header } from './components/Header'
-import { useDebouncedCallback } from './hooks/useDeboounceCallback'
 
 export function Home() {
   const { data, error, isLoading } = useQuery({
@@ -32,12 +31,9 @@ export function Home() {
 
   const [filter, setFilter] = useState('')
 
-  const { debounced: handleInputChange } = useDebouncedCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setFilter(e.target.value)
-    },
-    500
-  )
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilter(e.target.value)
+  }
 
   const podcasts = data?.feed?.entry || []
 
