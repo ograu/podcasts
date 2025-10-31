@@ -38,7 +38,7 @@ export default App
 function Layout({ children }: PropsWithChildren) {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 lg:px-8">{children}</div>
+      <div className="container mx-auto px-4 py-6 lg:px-8">{children}</div>
     </div>
   )
 }
