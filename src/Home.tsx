@@ -53,7 +53,7 @@ export function Home() {
 
   return (
     <>
-      <Header title="Podcaster" />
+      <Header />
       <div className="flex items-center justify-end mb-4 pr-[50px]">
         <span className="rounded-lg bg-[#5ea5cf] text-white px-2 text-base font-semibold mr-3">
           {filteredPodcasts.length}

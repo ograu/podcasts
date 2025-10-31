@@ -5,7 +5,7 @@ const Podcast = () => {
   const { id } = useParams<{ id: string }>()
   return (
     <>
-      <Header title="Podcast Details" />
+      <Header />
       <div>
         <p>
           This is the podcast details page for podcast ID: <strong>{id}</strong>

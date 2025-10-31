@@ -5,7 +5,7 @@ const Episode = () => {
   const { id, episodeId } = useParams<{ id: string; episodeId: string }>()
   return (
     <>
-      <Header title="Episode Details" />
+      <Header />
       <div>
         <p>
           This is the episode details page for podcast ID: <strong>{id}</strong>{' '}
