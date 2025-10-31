@@ -1,16 +1,34 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { PropsWithChildren } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Episode from './Episode'
 import { Home } from './Home'
 import './index.css'
+import Podcast from './Podcast'
 
 const queryClient = new QueryClient()
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout>
-        <Home />
-      </Layout>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route
+              path="/"
+              element={<Home />}
+            />
+            <Route
+              path="/podcast/:id"
+              element={<Podcast />}
+            />
+            <Route
+              path="/podcast/:id/episode/:episodeId"
+              element={<Episode />}
+            />
+          </Routes>
+        </Layout>
+      </BrowserRouter>
     </QueryClientProvider>
   )
 }
