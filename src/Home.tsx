@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Header } from './components/Header'
 
 export function Home() {
@@ -66,9 +67,10 @@ export function Home() {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
         {filteredPodcasts.map((podcast: any) => (
-          <div
+          <Link
             key={podcast.id?.attributes['im:id']}
-            className="bg-white rounded-lg shadow-lg shadow-gray-400 p-4 flex flex-col items-center"
+            to={`/podcast/${podcast.id?.attributes['im:id']}`}
+            className="bg-white rounded-lg shadow-lg shadow-gray-400 p-4 flex flex-col items-center cursor-pointer hover:bg-blue-50 transition no-underline"
           >
             <img
               src={podcast['im:image']?.[2]?.label}
@@ -81,7 +83,7 @@ export function Home() {
             <div className="text-gray-500 text-sm text-center">
               {podcast['im:artist']?.label}
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </>
