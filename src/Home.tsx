@@ -7,11 +7,26 @@ export function Home() {
   const { data, error, isLoading } = useQuery({
     queryKey: ['podcasts'],
     queryFn: async () => {
+      const cacheKey = 'podcasts_cache_v1'
+      const cache = localStorage.getItem(cacheKey)
+      if (cache) {
+        try {
+          const { data, timestamp } = JSON.parse(cache)
+          if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
+            return data
+          }
+        } catch {}
+      }
       const res = await fetch(
         'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json'
       )
       if (!res.ok) throw new Error('Network response was not ok')
-      return res.json()
+      const json = await res.json()
+      localStorage.setItem(
+        cacheKey,
+        JSON.stringify({ data: json, timestamp: Date.now() })
+      )
+      return json
     },
   })
 
