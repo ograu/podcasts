@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useMemo, useState } from 'react'
 import { Header } from './components/Header'
+import { useDebouncedCallback } from './hooks/useDeboounceCallback'
 
 export function Home() {
   const { data, error, isLoading } = useQuery({
@@ -14,16 +15,16 @@ export function Home() {
     },
   })
 
-  if (isLoading) return <div>Loading...</div>
-  if (error) return <div>Error: {(error as Error).message}</div>
-
-  const podcasts = data?.feed?.entry || []
-
   const [filter, setFilter] = useState('')
 
-  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setFilter(e.target.value)
-  }
+  const { debounced: handleInputChange } = useDebouncedCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFilter(e.target.value)
+    },
+    500
+  )
+
+  const podcasts = data?.feed?.entry || []
 
   const filteredPodcasts = useMemo(() => {
     if (!filter) return podcasts
@@ -35,6 +36,9 @@ export function Home() {
     })
   }, [podcasts, filter])
 
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {(error as Error).message}</div>
+
   return (
     <>
       <Header title="Home" />
@@ -44,7 +48,6 @@ export function Home() {
         </span>
         <input
           type="text"
-          value={filter}
           onChange={handleInputChange}
           placeholder="Filter podcasts..."
           className="border border-gray-300 rounded px-3 py-1 text-sm w-64 focus:outline-none focus:ring focus:border-blue-300"

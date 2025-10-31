@@ -1,8 +1,7 @@
-import React from 'react'
 import { useParams } from 'react-router-dom'
 import { Header } from './components/Header'
 
-const Episode: React.FC = () => {
+const Episode = () => {
   const { id, episodeId } = useParams<{ id: string; episodeId: string }>()
   return (
     <>

@@ -1,8 +1,7 @@
-import React from 'react'
 import { useParams } from 'react-router-dom'
 import { Header } from './components/Header'
 
-const Podcast: React.FC = () => {
+const Podcast = () => {
   const { id } = useParams<{ id: string }>()
   return (
     <>
