@@ -1,15 +1,18 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { Header } from './components/Header'
 
 const Podcast: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   return (
-    <div>
-      <h2>Podcast Details</h2>
-      <p>
-        This is the podcast details page for podcast ID: <strong>{id}</strong>
-      </p>
-    </div>
+    <>
+      <Header title="Podcast Details" />
+      <div>
+        <p>
+          This is the podcast details page for podcast ID: <strong>{id}</strong>
+        </p>
+      </div>
+    </>
   )
 }
 
