@@ -53,7 +53,7 @@ export function Home() {
 
   return (
     <>
-      <Header title="Home" />
+      <Header title="Podcaster" />
       <div className="flex items-center justify-end mb-4 pr-[50px]">
         <span className="rounded-lg bg-[#5ea5cf] text-white px-2 text-base font-semibold mr-3">
           {filteredPodcasts.length}
@@ -77,11 +77,11 @@ export function Home() {
               alt={podcast['im:name']?.label}
               className="w-24 h-24 rounded-full mb-4 object-cover"
             />
-            <div className="font-bold text-center mb-2">
+            <div className="font-bold text-center mb-2 uppercase">
               {podcast['im:name']?.label}
             </div>
             <div className="text-gray-500 text-sm text-center">
-              {podcast['im:artist']?.label}
+              Author: {podcast['im:artist']?.label}
             </div>
           </Link>
         ))}
