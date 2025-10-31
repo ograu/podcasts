@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import './index.css'
+import React, { useMemo, useState } from 'react'
+import { Header } from './components/Header'
 
 export function Home() {
   const { data, error, isLoading } = useQuery({
@@ -18,26 +19,57 @@ export function Home() {
 
   const podcasts = data?.feed?.entry || []
 
+  const [filter, setFilter] = useState('')
+
+  function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setFilter(e.target.value)
+  }
+
+  const filteredPodcasts = useMemo(() => {
+    if (!filter) return podcasts
+    const lower = filter.toLowerCase()
+    return podcasts.filter((podcast: any) => {
+      const title = podcast['im:name']?.label?.toLowerCase() || ''
+      const author = podcast['im:artist']?.label?.toLowerCase() || ''
+      return title.includes(lower) || author.includes(lower)
+    })
+  }, [podcasts, filter])
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-      {podcasts.map((podcast: any) => (
-        <div
-          key={podcast.id?.attributes['im:id']}
-          className="bg-white rounded-lg shadow-lg shadow-gray-400 p-4 flex flex-col items-center"
-        >
-          <img
-            src={podcast['im:image']?.[2]?.label}
-            alt={podcast['im:name']?.label}
-            className="w-24 h-24 rounded-full mb-4 object-cover"
-          />
-          <div className="font-bold text-center mb-2">
-            {podcast['im:name']?.label}
+    <>
+      <Header title="Home" />
+      <div className="flex items-center justify-end mb-4 pr-[50px]">
+        <span className="rounded-lg bg-[#5ea5cf] text-white px-2 text-base font-semibold mr-3">
+          {filteredPodcasts.length}
+        </span>
+        <input
+          type="text"
+          value={filter}
+          onChange={handleInputChange}
+          placeholder="Filter podcasts..."
+          className="border border-gray-300 rounded px-3 py-1 text-sm w-64 focus:outline-none focus:ring focus:border-blue-300"
+        />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+        {filteredPodcasts.map((podcast: any) => (
+          <div
+            key={podcast.id?.attributes['im:id']}
+            className="bg-white rounded-lg shadow-lg shadow-gray-400 p-4 flex flex-col items-center"
+          >
+            <img
+              src={podcast['im:image']?.[2]?.label}
+              alt={podcast['im:name']?.label}
+              className="w-24 h-24 rounded-full mb-4 object-cover"
+            />
+            <div className="font-bold text-center mb-2">
+              {podcast['im:name']?.label}
+            </div>
+            <div className="text-gray-500 text-sm text-center">
+              {podcast['im:artist']?.label}
+            </div>
           </div>
-          <div className="text-gray-500 text-sm text-center">
-            {podcast['im:artist']?.label}
-          </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </>
   )
 }
