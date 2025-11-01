@@ -1,4 +1,4 @@
-import type { PropsWithChildren } from 'react'
+import { type PropsWithChildren } from 'react'
 
 export const Layout = ({ children }: PropsWithChildren) => (
   <div className="min-h-screen bg-gray-50">

@@ -36,28 +36,17 @@ export const Podcast = () => {
     queryKey: ['podcastEpisodes', id],
     queryFn: async () => {
       if (!id) return null
-      const cacheKey = `podcast_episodes_cache_${id}`
-      const cache = localStorage.getItem(cacheKey)
-      if (cache) {
-        try {
-          const { data, timestamp } = JSON.parse(cache)
-          if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
-            return data
-          }
-        } catch {}
-      }
+
       const res = await fetch(
         `https://itunes.apple.com/lookup?id=${id}&media=podcast&entity=podcastEpisode&limit=20`
       )
       if (!res.ok) throw new Error('Network response was not ok')
       const json = await res.json()
-      localStorage.setItem(
-        cacheKey,
-        JSON.stringify({ data: json, timestamp: Date.now() })
-      )
+
       return json
     },
     enabled: !!id,
+    staleTime: 24 * 60 * 60 * 1000,
   })
 
   const episodes =
@@ -68,7 +57,7 @@ export const Podcast = () => {
   if (!podcast) {
     return (
       <>
-        <Header />
+        <Header isLoading={isLoading} />
         <div className="text-center text-gray-500 mt-8">Podcast not found.</div>
       </>
     )
@@ -76,7 +65,7 @@ export const Podcast = () => {
 
   return (
     <>
-      <Header />
+      <Header isLoading={isLoading} />
       <div className="flex">
         {/* Sidebar Card */}
         <aside className="w-full max-w-60 mr-8">

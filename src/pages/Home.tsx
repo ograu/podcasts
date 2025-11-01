@@ -3,31 +3,19 @@ import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Header } from '../components/Header'
 
-export function Home() {
+export const Home = () => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['podcasts'],
     queryFn: async () => {
-      const cacheKey = 'podcasts_cache_v1'
-      const cache = localStorage.getItem(cacheKey)
-      if (cache) {
-        try {
-          const { data, timestamp } = JSON.parse(cache)
-          if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
-            return data
-          }
-        } catch {}
-      }
       const res = await fetch(
         'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json'
       )
       if (!res.ok) throw new Error('Network response was not ok')
       const json = await res.json()
-      localStorage.setItem(
-        cacheKey,
-        JSON.stringify({ data: json, timestamp: Date.now() })
-      )
+
       return json
     },
+    staleTime: 24 * 60 * 60 * 1000,
   })
 
   const [filter, setFilter] = useState('')
@@ -53,7 +41,7 @@ export function Home() {
 
   return (
     <>
-      <Header />
+      <Header isLoading={isLoading} />
       <div className="flex items-center justify-end mb-4 pr-[50px]">
         <span className="rounded-lg bg-[#5ea5cf] text-white px-2 text-base font-semibold mr-3">
           {filteredPodcasts.length}
