@@ -21,11 +21,12 @@ function App() {
             <Route
               path="/podcast/:id"
               element={<Podcast />}
-            />
-            <Route
-              path="/podcast/:id/episode/:episodeId"
-              element={<Episode />}
-            />
+            >
+              <Route
+                path="episode/:episodeId"
+                element={<Episode />}
+              />
+            </Route>
           </Routes>
         </Layout>
       </BrowserRouter>
