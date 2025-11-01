@@ -84,7 +84,7 @@ export const Podcast = () => {
             to={`/podcast/${id}`}
             className="block mb-4 w-full"
           >
-            <div className="bg-white rounded-lg shadow-md shadow-gray-400 p-4 flex flex-col items-start">
+            <div className="bg-white rounded-sm shadow-md shadow-gray-400 p-4 flex flex-col items-start">
               {image && (
                 <div className="w-full flex justify-center">
                   <img
@@ -110,31 +110,31 @@ export const Podcast = () => {
         </aside>
         {/* Main content */}
         <main className="flex-1 flex flex-col gap-6">
-          {/* Episodes count card */}
-          <div className="bg-white rounded-lg shadow-md shadow-gray-400 p-4 mb-4 w-full">
-            <span className="font-bold text-[18px]">
-              Episodes: {episodes.length}
-            </span>
-          </div>
-          {/* Episodes table card */}
-          <div className="bg-white rounded-lg shadow-md shadow-gray-400 p-4 w-full">
-            {isEpisodeRoute ? (
-              <Outlet
-                context={{
-                  episode: episodesData?.results.filter(
-                    (episode) => String(episode.trackId) === episodeId
-                  )?.[0],
-                }}
-              />
-            ) : (
-              <EpisodesTable
-                id={id || ''}
-                episodes={episodesData?.results}
-                isLoading={isLoading}
-                error={error}
-              />
-            )}
-          </div>
+          {isEpisodeRoute ? (
+            <Outlet
+              context={{
+                episode: episodesData?.results.filter(
+                  (episode) => String(episode.trackId) === episodeId
+                )?.[0],
+              }}
+            />
+          ) : (
+            <>
+              {/* Episodes count card */}
+              <div className="bg-white rounded-sm shadow-md shadow-gray-400 px-4 py-2 mb-4 w-full">
+                <span className="font-bold">Episodes: {episodes.length}</span>
+              </div>
+              {/* Episodes table card */}
+              <div className="bg-white rounded-sm shadow-md shadow-gray-400 p-4 w-full">
+                <EpisodesTable
+                  id={id || ''}
+                  episodes={episodesData?.results}
+                  isLoading={isLoading}
+                  error={error}
+                />
+              </div>
+            </>
+          )}
         </main>
       </div>
     </>

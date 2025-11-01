@@ -70,7 +70,7 @@ export function Home() {
           <Link
             key={podcast.id?.attributes['im:id']}
             to={`/podcast/${podcast.id?.attributes['im:id']}`}
-            className="bg-white rounded-lg shadow-lg shadow-gray-400 p-4 flex flex-col items-center cursor-pointer hover:bg-blue-50 transition no-underline"
+            className="bg-white rounded-sm shadow-lg shadow-gray-400 p-4 flex flex-col items-center cursor-pointer hover:bg-blue-50 transition no-underline"
           >
             <img
               src={podcast['im:image']?.[2]?.label}
