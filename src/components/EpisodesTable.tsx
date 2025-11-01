@@ -19,8 +19,6 @@ export const EpisodesTable = ({
     return <div className="text-red-500">Error loading episodes.</div>
   }
 
-  console.log(episodes)
-
   return (
     <table className="w-full border-collapse table-fixed">
       <thead>

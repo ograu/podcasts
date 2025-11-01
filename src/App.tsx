@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
-import { Episode } from './Episode'
-import { Home } from './Home'
 import './index.css'
-import { Podcast } from './Podcast'
+import { Episode } from './pages/Episode'
+import { Home } from './pages/Home'
+import { Podcast } from './pages/Podcast'
 
 const queryClient = new QueryClient()
 

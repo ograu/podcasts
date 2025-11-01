@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { Outlet, useMatch, useParams } from 'react-router-dom'
+import { Link, Outlet, useMatch, useParams } from 'react-router-dom'
 import { EpisodesTable } from '../components/EpisodesTable'
 import { Header } from '../components/Header'
 
@@ -80,28 +80,33 @@ export const Podcast = () => {
       <div className="flex">
         {/* Sidebar Card */}
         <aside className="w-full max-w-60 mr-8">
-          <div className="bg-white rounded-lg shadow-md shadow-gray-400 p-4 flex flex-col items-start">
-            {image && (
-              <div className="w-full flex justify-center">
-                <img
-                  src={image}
-                  alt={title}
-                  className="w-32 h-32 rounded-lg mb-4 object-cover"
-                />
+          <Link
+            to={`/podcast/${id}`}
+            className="block mb-4 w-full"
+          >
+            <div className="bg-white rounded-lg shadow-md shadow-gray-400 p-4 flex flex-col items-start">
+              {image && (
+                <div className="w-full flex justify-center">
+                  <img
+                    src={image}
+                    alt={title}
+                    className="w-32 h-32 rounded-lg mb-4 object-cover"
+                  />
+                </div>
+              )}
+              <div className="font-bold text-[14px] text-left">{title}</div>
+              <div className="text-[14px] text-left italic">by {author}</div>
+              <div className="w-full flex justify-center my-4">
+                <div className="h-0.5 bg-gray-200 w-full" />
               </div>
-            )}
-            <div className="font-bold text-[14px] text-left">{title}</div>
-            <div className="text-[14px] text-left italic">by {author}</div>
-            <div className="w-full flex justify-center my-4">
-              <div className="h-0.5 bg-gray-200 w-full" />
+              <div className="w-full text-left mb-1 font-semibold text-[14px]">
+                Description:
+              </div>
+              <div className="text-gray-700 text-[14px] w-full text-left italic">
+                {description}
+              </div>
             </div>
-            <div className="w-full text-left mb-1 font-semibold text-[14px]">
-              Description:
-            </div>
-            <div className="text-gray-700 text-[14px] w-full text-left italic">
-              {description}
-            </div>
-          </div>
+          </Link>
         </aside>
         {/* Main content */}
         <main className="flex-1 flex flex-col gap-6">

@@ -1,17 +1,11 @@
 import { useParams } from 'react-router-dom'
-import { Header } from './components/Header'
 
 export const Episode = () => {
   const { id, episodeId } = useParams<{ id: string; episodeId: string }>()
   return (
-    <>
-      <Header />
-      <div>
-        <p>
-          This is the episode details page for podcast ID: <strong>{id}</strong>{' '}
-          and episode ID: <strong>{episodeId}</strong>
-        </p>
-      </div>
-    </>
+    <p>
+      This is the episode details page for podcast ID: <strong>{id}</strong> and
+      episode ID: <strong>{episodeId}</strong>
+    </p>
   )
 }

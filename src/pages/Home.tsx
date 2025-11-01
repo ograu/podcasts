@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Header } from './components/Header'
+import { Header } from '../components/Header'
 
 export function Home() {
   const { data, error, isLoading } = useQuery({
