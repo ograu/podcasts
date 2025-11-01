@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify'
 import { useOutletContext } from 'react-router-dom'
 
 type Episode = {
@@ -18,12 +19,16 @@ export const Episode = () => {
     )
   }
 
+  const sanitizedDescription = DOMPurify.sanitize(
+    episode?.shortDescription || ''
+  )
+
   return (
     <>
       <h3 className="font-bold text-[16px] mb-2">{episode?.trackName}</h3>
       <div
         className="text-gray-700 text-[14px] mb-4 italic"
-        dangerouslySetInnerHTML={{ __html: episode?.shortDescription || '' }}
+        dangerouslySetInnerHTML={{ __html: sanitizedDescription }}
       />
       {episode.episodeUrl && (
         <audio
