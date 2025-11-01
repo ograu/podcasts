@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Outlet, useMatch, useParams } from 'react-router-dom'
-import { EpisodesTable } from './components/EpisodesTable'
-import { Header } from './components/Header'
+import { EpisodesTable } from '../components/EpisodesTable'
+import { Header } from '../components/Header'
 
 export const Podcast = () => {
   const { id } = useParams<{ id: string }>()

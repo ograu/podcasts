@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import type { PropsWithChildren } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Layout } from './components/Layout'
 import { Episode } from './Episode'
 import { Home } from './Home'
 import './index.css'
@@ -35,11 +35,3 @@ function App() {
 }
 
 export default App
-
-function Layout({ children }: PropsWithChildren) {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-6 lg:px-8">{children}</div>
-    </div>
-  )
-}
