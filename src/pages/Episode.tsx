@@ -1,11 +1,42 @@
-import { useParams } from 'react-router-dom'
+import { useOutletContext } from 'react-router-dom'
+
+type Episode = {
+  trackName: string
+  description?: string
+  shortDescription?: string
+  episodeUrl?: string
+}
 
 export const Episode = () => {
-  const { id, episodeId } = useParams<{ id: string; episodeId: string }>()
+  const { episode } = useOutletContext<{ episode: Episode }>()
+
+  console
+
+  if (!episode) {
+    return (
+      <div className="text-center text-gray-500 mt-8">Episode not found.</div>
+    )
+  }
+
   return (
-    <p>
-      This is the episode details page for podcast ID: <strong>{id}</strong> and
-      episode ID: <strong>{episodeId}</strong>
-    </p>
+    <>
+      <h3 className="font-bold text-[16px] mb-2">{episode?.trackName}</h3>
+      <div
+        className="text-gray-700 text-[14px] mb-4 italic"
+        dangerouslySetInnerHTML={{ __html: episode?.shortDescription || '' }}
+      />
+      {episode.episodeUrl && (
+        <audio
+          controls
+          className="w-full mt-4"
+        >
+          <source
+            src={episode?.episodeUrl}
+            type="audio/mpeg"
+          />
+          Your browser does not support the audio element.
+        </audio>
+      )}
+    </>
   )
 }

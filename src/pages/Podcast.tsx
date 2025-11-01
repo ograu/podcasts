@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
-import { Link, Outlet, useMatch, useParams } from 'react-router-dom'
+import { Link, Outlet, useParams } from 'react-router-dom'
 import { EpisodesTable } from '../components/EpisodesTable'
 import { Header } from '../components/Header'
 
 export const Podcast = () => {
-  const { id } = useParams<{ id: string }>()
-  const isEpisodeRoute = useMatch('/podcast/:id/episode/:episodeId')
+  const { id, episodeId } = useParams<{ id: string; episodeId: string }>()
+  const isEpisodeRoute = Boolean(episodeId)
 
   // Get cached podcasts
   const cacheKey = 'podcasts_cache_v1'
@@ -119,7 +119,13 @@ export const Podcast = () => {
           {/* Episodes table card */}
           <div className="bg-white rounded-lg shadow-md shadow-gray-400 p-4 w-full">
             {isEpisodeRoute ? (
-              <Outlet />
+              <Outlet
+                context={{
+                  episode: episodesData?.results.filter(
+                    (episode) => String(episode.trackId) === episodeId
+                  )?.[0],
+                }}
+              />
             ) : (
               <EpisodesTable
                 id={id || ''}
