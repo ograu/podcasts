@@ -8,10 +8,9 @@ export const useGetPodcast = () => {
       const res = await fetch(
         'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json'
       )
-      if (!res.ok) throw new Error('Network response was not ok')
-      const json = await res.json()
 
-      return json
+      if (!res.ok) throw new Error('Network response was not ok')
+      return await res.json()
     },
     staleTime: 24 * 60 * 60 * 1000,
     select: (data) => {

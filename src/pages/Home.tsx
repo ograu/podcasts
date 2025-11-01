@@ -5,14 +5,7 @@ import { Header } from '../components/Header'
 
 export const Home = () => {
   const { data: podcasts, error, isLoading } = useGetPodcast()
-
-  console.log(podcasts)
-
   const [filter, setFilter] = useState('')
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilter(e.target.value)
-  }
 
   const filteredPodcasts = useMemo(() => {
     if (!podcasts) return []
@@ -27,6 +20,10 @@ export const Home = () => {
       )
     })
   }, [podcasts, filter])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilter(e.target.value)
+  }
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {(error as Error).message}</div>

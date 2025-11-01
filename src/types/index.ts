@@ -31,6 +31,9 @@ export type EpisodesResponse = {
     trackId: number
     trackName: string
     trackTimeMillis: number
+    episodeUrl: string
+    shortDescription: string
+    wrapperType: 'track' | 'podcastEpisode'
   }[]
 }
 
@@ -38,4 +41,6 @@ export type Episode = {
   trackId: number
   trackName: string
   trackTimeMillis: number
+  episodeUrl: string
+  shortDescription: string
 }

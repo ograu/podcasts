@@ -22,23 +22,27 @@ export const Podcast = () => {
       if (!id) return null
 
       const res = await fetch(
-        `https://itunes.apple.com/lookup?id=${id}&media=podcast&entity=podcastEpisode&limit=20`
+        `https://api.allorigins.win/get?url=${encodeURIComponent(
+          `https://itunes.apple.com/lookup?id=${id}&media=podcast&entity=podcastEpisode&limit=20`
+        )}`
       )
       if (!res.ok) throw new Error('Network response was not ok')
       const json = await res.json()
 
-      return json
+      return JSON.parse(json.contents)
     },
     enabled: !!id,
     staleTime: 24 * 60 * 60 * 1000,
     select: (data) =>
       data.results
-        ?.filter((ep: any) => ep.wrapperType === 'podcastEpisode')
+        ?.filter((ep) => ep.wrapperType === 'podcastEpisode')
         .map((ep) => {
           return {
             trackId: ep.trackId,
             trackName: ep.trackName,
             trackTimeMillis: ep.trackTimeMillis,
+            episodeUrl: ep.episodeUrl,
+            shortDescription: ep.shortDescription,
           }
         }),
   })
@@ -51,9 +55,6 @@ export const Podcast = () => {
       </>
     )
   }
-
-  if (isLoading) return <div>Loading...</div>
-  if (error) return <div>Error: {(error as Error).message}</div>
 
   return (
     <>
