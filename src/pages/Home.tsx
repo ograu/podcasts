@@ -1,22 +1,12 @@
-import { useQuery } from '@tanstack/react-query'
 import React, { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useGetPodcast } from '../api/useGetPodcast'
 import { Header } from '../components/Header'
 
 export const Home = () => {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['podcasts'],
-    queryFn: async () => {
-      const res = await fetch(
-        'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json'
-      )
-      if (!res.ok) throw new Error('Network response was not ok')
-      const json = await res.json()
+  const { data: podcasts, error, isLoading } = useGetPodcast()
 
-      return json
-    },
-    staleTime: 24 * 60 * 60 * 1000,
-  })
+  console.log(podcasts)
 
   const [filter, setFilter] = useState('')
 
@@ -24,15 +14,17 @@ export const Home = () => {
     setFilter(e.target.value)
   }
 
-  const podcasts = data?.feed?.entry || []
-
   const filteredPodcasts = useMemo(() => {
+    if (!podcasts) return []
     if (!filter) return podcasts
+
     const lower = filter.toLowerCase()
-    return podcasts.filter((podcast: any) => {
-      const title = podcast['im:name']?.label?.toLowerCase() || ''
-      const author = podcast['im:artist']?.label?.toLowerCase() || ''
-      return title.includes(lower) || author.includes(lower)
+
+    return podcasts.filter(({ title, artist }) => {
+      return (
+        title.toLowerCase().includes(lower) ||
+        artist.toLowerCase().includes(lower)
+      )
     })
   }, [podcasts, filter])
 
@@ -54,22 +46,22 @@ export const Home = () => {
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-        {filteredPodcasts.map((podcast: any) => (
+        {filteredPodcasts.map((podcast) => (
           <Link
-            key={podcast.id?.attributes['im:id']}
-            to={`/podcast/${podcast.id?.attributes['im:id']}`}
+            key={podcast.id}
+            to={`/podcast/${podcast.id}`}
             className="bg-white rounded-sm shadow-lg shadow-gray-400 p-4 flex flex-col items-center cursor-pointer hover:bg-blue-50 transition no-underline"
           >
             <img
-              src={podcast['im:image']?.[2]?.label}
-              alt={podcast['im:name']?.label}
+              src={podcast.image}
+              alt={podcast.title}
               className="w-24 h-24 rounded-full mb-4 object-cover"
             />
             <div className="font-bold text-center mb-2 uppercase">
-              {podcast['im:name']?.label}
+              {podcast.title}
             </div>
             <div className="text-gray-500 text-sm text-center">
-              Author: {podcast['im:artist']?.label}
+              Author: {podcast.artist}
             </div>
           </Link>
         ))}

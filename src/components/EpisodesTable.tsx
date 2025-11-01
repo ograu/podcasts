@@ -1,16 +1,14 @@
 import { Link } from 'react-router-dom'
+import type { Episode } from '../types'
 
-export const EpisodesTable = ({
-  id,
-  episodes,
-  isLoading,
-  error,
-}: {
+type Props = {
   id: string
-  episodes: any
+  episodes: Episode[]
   isLoading: boolean
   error: Error | null
-}) => {
+}
+
+export const EpisodesTable = ({ id, episodes, isLoading, error }: Props) => {
   if (isLoading) {
     return <div className="text-gray-500">Loading episodes...</div>
   }

@@ -1,38 +1,22 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link, Outlet, useParams } from 'react-router-dom'
+import { useGetPodcast } from '../api/useGetPodcast'
 import { EpisodesTable } from '../components/EpisodesTable'
 import { Header } from '../components/Header'
+import type { Episode, EpisodesResponse } from '../types'
 
 export const Podcast = () => {
   const { id, episodeId } = useParams<{ id: string; episodeId: string }>()
+  const { data: podcasts } = useGetPodcast()
+  const podcast = podcasts?.find((p) => p.id === id)
+
   const isEpisodeRoute = Boolean(episodeId)
 
-  // Get cached podcasts
-  const cacheKey = 'podcasts_cache_v1'
-  let podcast: any = null
-  const cache = localStorage.getItem(cacheKey)
-  if (cache && id) {
-    try {
-      const { data } = JSON.parse(cache)
-      const entries = data?.feed?.entry || []
-      podcast = entries.find((p: any) => p.id?.attributes['im:id'] === id)
-    } catch {}
-  }
-
-  const image = podcast['im:image']?.[2]?.label
-  const title = podcast['im:name']?.label
-  const author = podcast['im:artist']?.label
-  const description =
-    podcast['summary']?.label ||
-    podcast['description']?.label ||
-    'No description available.'
-
-  // Fetch episodes using useQuery
   const {
-    data: episodesData,
+    data: episodes = [],
     isLoading,
     error,
-  } = useQuery({
+  } = useQuery<EpisodesResponse, Error, Episode[]>({
     queryKey: ['podcastEpisodes', id],
     queryFn: async () => {
       if (!id) return null
@@ -47,12 +31,17 @@ export const Podcast = () => {
     },
     enabled: !!id,
     staleTime: 24 * 60 * 60 * 1000,
+    select: (data) =>
+      data.results
+        ?.filter((ep: any) => ep.wrapperType === 'podcastEpisode')
+        .map((ep) => {
+          return {
+            trackId: ep.trackId,
+            trackName: ep.trackName,
+            trackTimeMillis: ep.trackTimeMillis,
+          }
+        }),
   })
-
-  const episodes =
-    episodesData?.results?.filter(
-      (ep: any) => ep.wrapperType === 'podcastEpisode'
-    ) || []
 
   if (!podcast) {
     return (
@@ -62,6 +51,9 @@ export const Podcast = () => {
       </>
     )
   }
+
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {(error as Error).message}</div>
 
   return (
     <>
@@ -74,17 +66,21 @@ export const Podcast = () => {
             className="block mb-4 w-full"
           >
             <div className="bg-white rounded-sm shadow-md shadow-gray-400 p-4 flex flex-col items-start">
-              {image && (
+              {podcast.image && (
                 <div className="w-full flex justify-center">
                   <img
-                    src={image}
-                    alt={title}
+                    src={podcast.image}
+                    alt={podcast.title}
                     className="w-32 h-32 rounded-lg mb-4 object-cover"
                   />
                 </div>
               )}
-              <div className="font-bold text-[14px] text-left">{title}</div>
-              <div className="text-[14px] text-left italic">by {author}</div>
+              <div className="font-bold text-[14px] text-left">
+                {podcast.title}
+              </div>
+              <div className="text-[14px] text-left italic">
+                by {podcast.artist}
+              </div>
               <div className="w-full flex justify-center my-4">
                 <div className="h-0.5 bg-gray-200 w-full" />
               </div>
@@ -92,7 +88,7 @@ export const Podcast = () => {
                 Description:
               </div>
               <div className="text-gray-700 text-[14px] w-full text-left italic">
-                {description}
+                {podcast.description}
               </div>
             </div>
           </Link>
@@ -102,7 +98,7 @@ export const Podcast = () => {
           {isEpisodeRoute ? (
             <Outlet
               context={{
-                episode: episodesData?.results.filter(
+                episode: episodes?.filter(
                   (episode) => String(episode.trackId) === episodeId
                 )?.[0],
               }}
@@ -113,11 +109,10 @@ export const Podcast = () => {
               <div className="bg-white rounded-sm shadow-md shadow-gray-400 px-4 py-2 mb-4 w-full">
                 <span className="font-bold">Episodes: {episodes.length}</span>
               </div>
-              {/* Episodes table card */}
               <div className="bg-white rounded-sm shadow-md shadow-gray-400 p-4 w-full">
                 <EpisodesTable
                   id={id || ''}
-                  episodes={episodesData?.results}
+                  episodes={episodes}
                   isLoading={isLoading}
                   error={error}
                 />
