@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useGetPodcast } from '../api/useGetPodcast'
 import { Header } from '../components/Header'
+import { PodcastCard } from '../components/PodcastCard'
 
 export const Home = () => {
   const { data: podcasts, error, isLoading } = useGetPodcast()
@@ -25,7 +25,7 @@ export const Home = () => {
     setFilter(e.target.value)
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading || !podcasts) return <div>Loading...</div>
   if (error) return <div>Error: {(error as Error).message}</div>
 
   return (
@@ -44,23 +44,10 @@ export const Home = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
         {filteredPodcasts.map((podcast) => (
-          <Link
+          <PodcastCard
             key={podcast.id}
-            to={`/podcast/${podcast.id}`}
-            className="bg-white rounded-sm shadow-lg shadow-gray-400 p-4 flex flex-col items-center cursor-pointer hover:bg-blue-50 transition no-underline"
-          >
-            <img
-              src={podcast.image}
-              alt={podcast.title}
-              className="w-24 h-24 rounded-full mb-4 object-cover"
-            />
-            <div className="font-bold text-center mb-2 uppercase">
-              {podcast.title}
-            </div>
-            <div className="text-gray-500 text-sm text-center">
-              Author: {podcast.artist}
-            </div>
-          </Link>
+            podcast={podcast}
+          />
         ))}
       </div>
     </>
