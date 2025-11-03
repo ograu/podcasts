@@ -22,14 +22,11 @@ export const Podcast = () => {
       if (!id) return null
 
       const res = await fetch(
-        `https://api.allorigins.win/get?url=${encodeURIComponent(
-          `https://itunes.apple.com/lookup?id=${id}&media=podcast&entity=podcastEpisode&limit=20`
-        )}`
+        `https://cors-anywhere.com/https://itunes.apple.com/lookup?id=${id}&media=podcast&entity=podcastEpisode&limit=20`
       )
-      if (!res.ok) throw new Error('Network response was not ok')
-      const json = await res.json()
 
-      return JSON.parse(json.contents)
+      if (!res.ok) throw new Error('Network response was not ok')
+      return await res.json()
     },
     enabled: !!id,
     staleTime: 24 * 60 * 60 * 1000,
