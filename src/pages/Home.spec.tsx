@@ -1,3 +1,4 @@
+/* global HTMLAnchorElement */
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import '@testing-library/jest-dom'
 import { render, screen, within } from '@testing-library/react'

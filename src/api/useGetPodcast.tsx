@@ -1,3 +1,4 @@
+/* global fetch */
 import { useQuery } from '@tanstack/react-query'
 import type { Podcast, PodcastsResponse } from '../types'
 

@@ -1,3 +1,4 @@
+/* global fetch */
 import { useQuery } from '@tanstack/react-query'
 import { Link, Outlet, useParams } from 'react-router-dom'
 import { useGetPodcast } from '../api/useGetPodcast'
