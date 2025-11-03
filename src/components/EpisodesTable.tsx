@@ -38,6 +38,7 @@ export const EpisodesTable = ({ id, episodes, isLoading, error }: Props) => {
             episode={episode}
             podcastId={id}
             isOdd={i % 2 === 0}
+            key={episode.trackId}
           />
         ))}
       </tbody>
