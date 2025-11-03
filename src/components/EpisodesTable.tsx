@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import type { Episode } from '../types'
+import { EpisodeRow } from './EpisodeRow'
 
 type Props = {
   id: string
@@ -33,32 +33,12 @@ export const EpisodesTable = ({ id, episodes, isLoading, error }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {episodes.map((ep: any, idx: number) => (
-          <tr
-            key={ep.trackId}
-            className={`${
-              idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-            } border-t border-gray-200`}
-          >
-            <td className="p-2 text-[14px] text-[#4886ab] font-medium w-3/5 truncate">
-              <Link
-                to={`/podcast/${id}/episode/${ep.trackId}`}
-                className="hover:underline"
-              >
-                {ep.trackName}
-              </Link>
-            </td>
-            <td className="p-2 text-[14px]">
-              {new Date(ep.releaseDate).toLocaleDateString()}
-            </td>
-            <td className="p-2 text-[14px] text-center">
-              {ep.trackTimeMillis
-                ? `${Math.floor(ep.trackTimeMillis / 60000)}:${String(
-                    Math.floor((ep.trackTimeMillis % 60000) / 1000)
-                  ).padStart(2, '0')}`
-                : '-'}
-            </td>
-          </tr>
+        {episodes.map((episode: Episode, i: number) => (
+          <EpisodeRow
+            episode={episode}
+            podcastId={id}
+            isOdd={i % 2 === 0}
+          />
         ))}
       </tbody>
     </table>
