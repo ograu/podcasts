@@ -1,9 +1,18 @@
 import { Link } from 'react-router-dom'
+import { Episode } from '../types'
 
 type Props = {
-  episode: any
+  episode: Episode
   podcastId: string
   isOdd: boolean
+}
+
+const produceLocalisedDate = (releaseDate: string) => {
+  return new Date(releaseDate).toLocaleDateString('es-ES', {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+  })
 }
 
 export const EpisodeRow = ({ episode, podcastId, isOdd }: Props) => (
@@ -20,7 +29,7 @@ export const EpisodeRow = ({ episode, podcastId, isOdd }: Props) => (
       </Link>
     </td>
     <td className="p-2 text-[14px]">
-      {new Date(episode.releaseDate).toLocaleDateString()}
+      {produceLocalisedDate(episode.releaseDate)}
     </td>
     <td className="p-2 text-[14px] text-center">
       {episode.trackTimeMillis

@@ -41,6 +41,7 @@ export const PodcastDetails = () => {
             trackTimeMillis: ep.trackTimeMillis,
             episodeUrl: ep.episodeUrl,
             shortDescription: ep.shortDescription,
+            releaseDate: ep.releaseDate,
           }
         }),
   })
