@@ -32,3 +32,9 @@ npm run preview
 ```
 
 El comando `build` genera los archivos optimizados en la carpeta `dist`, y `preview` inicia un servidor local para probar la versión final.
+
+## Observaciones
+
+- `allorigins.win` tarda muchísimo y está dando muchos errores, en su lugar estoy usando `cors-anywhere.com` que parece que funciona bastante mejor
+- He incluido una pequeña suit de tests a modo de demostración
+- En cuanto a la gestión de errores, he incluido una pequeña notificación al usuario para los errores de fetch
