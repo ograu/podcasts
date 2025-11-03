@@ -12,6 +12,16 @@ npm run dev
 
 Esto iniciará el servidor de desarrollo de Vite, permitiendo recarga en caliente y acceso a los assets sin minificar.
 
+### Ejecutar tests
+
+Para ejecutar los tests de la aplicación, utiliza el siguiente comando:
+
+```bash
+npm run test
+```
+
+Esto ejecutará todos los tests definidos en los archivos \*.spec.tsx y mostrará los resultados en la consola.
+
 ## Modo producción
 
 En modo producción, los assets se sirven concatenados y minimizados para optimizar el rendimiento y reducir el tamaño de descarga. Para construir y servir la aplicación en modo producción, ejecuta:
