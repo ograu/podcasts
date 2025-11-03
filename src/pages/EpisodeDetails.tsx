@@ -1,12 +1,6 @@
 import DOMPurify from 'dompurify'
 import { useOutletContext } from 'react-router-dom'
-
-type Episode = {
-  trackName: string
-  description?: string
-  shortDescription?: string
-  episodeUrl?: string
-}
+import { Episode } from '../types'
 
 export const EpisodeDetails = () => {
   const { episode } = useOutletContext<{ episode: Episode }>()
@@ -17,9 +11,7 @@ export const EpisodeDetails = () => {
     )
   }
 
-  const sanitizedDescription = DOMPurify.sanitize(
-    episode?.shortDescription || ''
-  )
+  const sanitizedDescription = DOMPurify.sanitize(episode?.description || '')
 
   return (
     <div className="bg-white rounded-sm shadow-md shadow-gray-400 p-4 mb-4 w-full">

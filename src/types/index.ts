@@ -28,9 +28,9 @@ export type Podcast = {
 
 export type EpisodesResponse = {
   results: {
+    description: string
     episodeUrl: string
     releaseDate: string
-    shortDescription: string
     trackId: number
     trackName: string
     trackTimeMillis: number
@@ -39,9 +39,9 @@ export type EpisodesResponse = {
 }
 
 export type Episode = {
+  description: string
   episodeUrl: string
   releaseDate: string
-  shortDescription: string
   trackId: number
   trackName: string
   trackTimeMillis: number

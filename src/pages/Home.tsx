@@ -1,3 +1,4 @@
+/* global HTMLInputElement */
 import React, { useMemo, useState } from 'react'
 import { useGetPodcast } from '../api/useGetPodcast'
 import { Header } from '../components/Header'

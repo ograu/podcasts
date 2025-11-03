@@ -20,7 +20,7 @@ export const useGetPodcast = () => {
         id: podcast.id?.attributes['im:id'],
         title: podcast['im:name']?.label,
         artist: podcast['im:artist']?.label,
-        image: podcast['im:image']?.[0]?.label,
+        image: podcast['im:image']?.[2]?.label,
         description: podcast?.summary?.label || '',
       }))
     },

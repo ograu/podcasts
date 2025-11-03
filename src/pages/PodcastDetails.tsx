@@ -40,7 +40,7 @@ export const PodcastDetails = () => {
             trackName: ep.trackName,
             trackTimeMillis: ep.trackTimeMillis,
             episodeUrl: ep.episodeUrl,
-            shortDescription: ep.shortDescription,
+            description: ep.description,
             releaseDate: ep.releaseDate,
           }
         }),
