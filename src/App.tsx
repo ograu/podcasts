@@ -2,10 +2,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import './index.css'
-import { Episode } from './pages/Episode'
+import { EpisodeDetails } from './pages/EpisodeDetails'
 import { Home } from './pages/Home'
-import { Podcast } from './pages/Podcast'
-
+import { PodcastDetails } from './pages/PodcastDetails'
 const queryClient = new QueryClient()
 
 function App() {
@@ -20,11 +19,11 @@ function App() {
             />
             <Route
               path="/podcast/:id"
-              element={<Podcast />}
+              element={<PodcastDetails />}
             >
               <Route
                 path="episode/:episodeId"
-                element={<Episode />}
+                element={<EpisodeDetails />}
               />
             </Route>
           </Routes>

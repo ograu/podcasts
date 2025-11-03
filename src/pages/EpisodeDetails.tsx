@@ -8,7 +8,7 @@ type Episode = {
   episodeUrl?: string
 }
 
-export const Episode = () => {
+export const EpisodeDetails = () => {
   const { episode } = useOutletContext<{ episode: Episode }>()
 
   if (!episode) {

@@ -5,7 +5,7 @@ import { EpisodesTable } from '../components/EpisodesTable'
 import { Header } from '../components/Header'
 import type { Episode, EpisodesResponse } from '../types'
 
-export const Podcast = () => {
+export const PodcastDetails = () => {
   const { id, episodeId } = useParams<{ id: string; episodeId: string }>()
   const { data: podcasts } = useGetPodcast()
   const podcast = podcasts?.find((p) => p.id === id)
